@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="window_background">#FFFBF8F3</color>
+    <color name="icon_background">#FF1565C0</color>
+    <color name="icon_background_light">#FF1E88E5</color>
+    <color name="icon_wallet">#FFFFFFFF</color>
+    <color name="icon_card">#FF90CAF9</color>
+    <color name="icon_clasp">#FF0D47A1</color>
+</resources>

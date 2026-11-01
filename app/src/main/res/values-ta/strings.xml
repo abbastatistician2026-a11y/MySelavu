@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- பொது -->
+    <string name="add">சேர்</string>
+    <string name="edit">திருத்து</string>
+    <string name="delete">நீக்கு</string>
+    <string name="deleted">நீக்கப்பட்டது</string>
+    <string name="remove">அகற்று</string>
+    <string name="save">சேமி</string>
+    <string name="cancel">ரத்து</string>
+    <string name="ok">சரி</string>
+    <string name="done">முடிந்தது</string>
+    <string name="next">அடுத்து</string>
+    <string name="back">பின்செல்</string>
+    <string name="undo">மீட்டெடு</string>
+    <string name="move">மாற்று</string>
+    <string name="from">இருந்து</string>
+    <string name="to">க்கு</string>
+    <string name="name">பெயர்</string>
+    <string name="amount">தொகை</string>
+    <string name="today">இன்று</string>
+    <string name="loading">தயாராகிறது…</string>
+    <string name="open_menu">மெனுவைத் திற</string>
+    <string name="expand">விவரங்களைக் காட்டு</string>
+    <string name="collapse">விவரங்களை மறை</string>
+    <string name="period_range">%1$s – %2$s</string>
+    <string name="hello">வணக்கம்!</string>
+    <string name="hello_name">வணக்கம், %1$s!</string>
+    <string name="drawer_money_left">இந்த மாதம் மீதமுள்ள பணம்: %1$s</string>
+
+    <!-- மெனு -->
+    <string name="nav_home">முகப்பு</string>
+    <string name="history">வரலாறு</string>
+    <string name="month_summary">மாதவாரி சுருக்கம்</string>
+    <string name="year_summary">ஆண்டுவாரி சுருக்கம்</string>
+    <string name="salary_and_income">சம்பளம் &amp; வருமானம்</string>
+    <string name="fixed_expenses">நிலையான செலவுகள்</string>
+    <string name="categories">பிரிவுகள்</string>
+    <string name="suggested_plan">பரிந்துரைத் திட்டம்</string>
+    <string name="export_excel">Excel ஆக ஏற்றுமதி</string>
+    <string name="settings_profile">சுயவிவரம் &amp; அமைப்புகள்</string>
+    <string name="settings">அமைப்புகள்</string>
+
+    <!-- முகப்பு -->
+    <string name="money_left">மீதமுள்ள பணம்</string>
+    <string name="money_left_hint">நிலையான செலவுகள், செலவுகளுக்குப் பிறகு</string>
+    <string name="unplanned_money">திட்டமிடாத பணம்</string>
+    <string name="unplanned_money_hint">எந்தப் பிரிவுக்கும் ஒதுக்கப்படவில்லை</string>
+    <string name="unplanned_negative_hint">இருப்பதை விட அதிகம் திட்டமிட்டுள்ளீர்கள். ஒரு பிரிவைக் குறைக்கவும்.</string>
+    <string name="safe_to_spend_today">இன்று பாதுகாப்பாகச் செலவிடலாம்</string>
+    <string name="spent_of_allocated">%2$s இல் %1$s செலவு</string>
+    <string name="spent_of_allocated_short">%1$s / %2$s</string>
+    <string name="left_amount">%1$s மீதம்</string>
+    <plurals name="days_left">
+        <item quantity="one">%d நாள் மீதம்</item>
+        <item quantity="other">%d நாட்கள் மீதம்</item>
+    </plurals>
+    <plurals name="no_spend_streak">
+        <item quantity="one">%d செலவில்லா நாள்</item>
+        <item quantity="other">%d செலவில்லா நாட்கள்</item>
+    </plurals>
+    <string name="add_expense">செலவைச் சேர்</string>
+    <string name="edit_expense">செலவைத் திருத்து</string>
+    <string name="savings_category_note">சேமிப்பு: இங்கே செலவு எச்சரிக்கைகள் இல்லை.</string>
+    <string name="uses_your_pattern">இந்தப் பிரிவில் நீங்கள் வழக்கமாகச் செலவிடும் முறையை வைத்து.</string>
+    <string name="quick_add">விரைவுச் சேர்ப்பு</string>
+    <string name="templates_hint">முகப்புத் திரையில் உள்ள விரைவுப் பொத்தானை ஒருமுறை தட்டினால் போதும். தேவையில்லாதவற்றை அகற்றவும்.</string>
+    <string name="bills_this_month">இந்த மாத பில்கள்</string>
+    <string name="paid">செலுத்தப்பட்டது ✓</string>
+    <string name="due_soon">விரைவில் செலுத்த வேண்டும்: %1$s</string>
+    <string name="due_on">செலுத்த வேண்டிய நாள் %1$s</string>
+    <string name="mark_paid_hint">செலுத்தியதும் டிக் செய்யவும்</string>
+    <string name="recent_expenses">சமீபத்திய செலவுகள்</string>
+    <string name="see_all">அனைத்தும்</string>
+    <string name="no_expenses_yet">இன்னும் செலவுகள் இல்லை. முதல் செலவைச் சேர்க்க + ஐத் தட்டவும்.</string>
+    <string name="no_categories_yet">இன்னும் பிரிவுகள் இல்லை. திட்டமிடத் தொடங்க ஒன்றைச் சேர்க்கவும்.</string>
+    <string name="hide_amounts">தொகைகளை மறை</string>
+    <string name="show_amounts">தொகைகளைக் காட்டு</string>
+
+    <!-- நிலை -->
+    <string name="status_on_track">சரியான பாதையில்</string>
+    <string name="status_careful">கவனம்</string>
+    <string name="status_overspending">அதிக செலவு</string>
+    <plurals name="warning_green">
+        <item quantity="one">நன்றாக உள்ளது: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">நன்றாக உள்ளது: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <plurals name="warning_yellow">
+        <item quantity="one">சற்று வேகம்: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">சற்று வேகம்: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <plurals name="warning_red">
+        <item quantity="one">மெதுவாக: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">மெதுவாக: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <string name="warning_overspent">பட்ஜெட்டை விட %1$s அதிகம். பரவாயில்லை, வேறு பிரிவிலிருந்து பணத்தை மாற்றலாம்.</string>
+
+    <!-- செலவு சேர் -->
+    <string name="category">பிரிவு</string>
+    <string name="paid_with">செலுத்திய முறை</string>
+    <string name="note_optional">குறிப்பு (விருப்பம்)</string>
+    <string name="save_as_quick">விரைவுச் சேர்ப்பாகச் சேமி</string>
+    <string name="add_again_today">இன்று மீண்டும் சேர்</string>
+    <string name="amount_negative">மொத்தம் பூஜ்ஜியத்திற்குக் குறைவாக இருக்க முடியாது</string>
+    <string name="amount_invalid">தொகையைச் சரிபார்க்கவும்</string>
+    <string name="amount_too_large">தொகை மிக அதிகம்</string>
+    <string name="backspace">கடைசி இலக்கத்தை நீக்கு</string>
+    <string name="clear">தொகையை அழி</string>
+    <string name="method_upi">UPI</string>
+    <string name="method_cash">ரொக்கம்</string>
+    <string name="method_debit">டெபிட் கார்டு</string>
+    <string name="method_credit">கிரெடிட் கார்டு</string>
+    <string name="method_other">மற்றவை</string>
+    <string name="expense_saved">%2$s க்கு %1$s சேமிக்கப்பட்டது</string>
+    <string name="expense_updated">செலவு புதுப்பிக்கப்பட்டது</string>
+    <string name="expense_deleted">செலவு நீக்கப்பட்டது</string>
+    <string name="expense_added_again">இன்றைக்கு மீண்டும் சேர்க்கப்பட்டது</string>
+    <string name="template_deleted">விரைவுச் சேர்ப்பு அகற்றப்பட்டது</string>
+    <string name="unusual_hint">%1$s க்கு இது வழக்கத்தை விட அதிகம். சரியா? மாற்ற சமீபத்திய செலவுகளில் அதைத் தட்டவும்.</string>
+
+    <!-- எப்போதிலிருந்து -->
+    <string name="apply_from_title">இந்த மாற்றம் எப்போது தொடங்க வேண்டும்?</string>
+    <string name="apply_from_text">கடந்த மாதங்கள் ஒருபோதும் மாறாது. இந்த மாதமும் புதிய தொகையைப் பயன்படுத்த வேண்டுமா எனத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="apply_this_month">இந்த மாதத்திலிருந்து</string>
+    <string name="apply_next_month">அடுத்த மாதத்திலிருந்து</string>
+    <string name="saved_this_month">சேமிக்கப்பட்டது. இந்த மாதத்திலிருந்து பொருந்தும்.</string>
+    <string name="saved_next_month">சேமிக்கப்பட்டது. அடுத்த மாதம் தொடங்கும்; இந்த மாதம் மாறாது.</string>
+
+    <!-- வரலாறு -->
+    <string name="search_hint">குறிப்பு, தொகை அல்லது பிரிவைத் தேடு</string>
+    <string name="range_this_month">இந்த மாதம்</string>
+    <string name="range_last_month">கடந்த மாதம்</string>
+    <string name="range_this_year">இந்த ஆண்டு</string>
+    <string name="range_all">எல்லாக் காலமும்</string>
+    <string name="range_choose">தேதிகளைத் தேர்வு செய்</string>
+    <string name="all_categories">எல்லாப் பிரிவுகளும்</string>
+    <string name="all_methods">எல்லா முறைகளும்</string>
+    <string name="total_spent_in_range">இந்தக் காலத்தில் மொத்தச் செலவு</string>
+    <string name="n_expenses">%1$d செலவுகள்</string>
+    <string name="no_expenses_in_range">இந்தக் காலத்தில் செலவுகள் இல்லை.</string>
+
+    <!-- சுருக்கங்கள் -->
+    <string name="savings_pot">சேமிப்புப் பெட்டி</string>
+    <string name="savings_pot_hint">ஒவ்வொரு மாத இறுதியிலும் சேமிப்புக்கு மாற்றப்பட்ட பணம்.</string>
+    <string name="no_months_yet">உங்கள் மாதங்கள் இங்கே தோன்றும்.</string>
+    <string name="month_closed">முடிந்தது</string>
+    <string name="month_current">இந்த மாதம்</string>
+    <string name="income">வருமானம் (சம்பளம் + கூடுதல்)</string>
+    <string name="spent">செலவு</string>
+    <string name="left_over">மீதமானது</string>
+    <string name="left_so_far">இதுவரை மீதம்</string>
+    <string name="moved_to_savings">சேமிப்புக்கு மாற்றப்பட்டது</string>
+    <string name="spent_by_month">ஒவ்வொரு மாதச் செலவு</string>
+    <string name="spent_by_category">பிரிவுவாரியான செலவு</string>
+
+    <!-- சம்பளம் -->
+    <string name="salary_this_month">இந்த மாத சம்பளம்</string>
+    <string name="salary_repeats_hint">நீங்கள் மாற்றும் வரை ஒவ்வொரு மாதமும் தானாகப் பயன்படுத்தப்படும்.</string>
+    <string name="change_salary">சம்பளத்தை மாற்று</string>
+    <string name="extra_income">கூடுதல் வருமானம்</string>
+    <string name="extra_income_hint">போனஸ், திருப்பிச் செலுத்தல் அல்லது பரிசு. கிடைத்த மாதத்தில் மட்டும் கணக்கிடப்படும்.</string>
+    <string name="add_extra_income">கூடுதல் வருமானம் சேர்</string>
+    <string name="extra_income_note_hint">என்ன அது? (போனஸ், ரீஃபண்ட்…)</string>
+    <string name="extra_income_added">கூடுதல் வருமானம் சேர்க்கப்பட்டது</string>
+    <string name="no_extra_income">இன்னும் கூடுதல் வருமானம் இல்லை.</string>
+    <string name="salary_history">சம்பள வரலாறு</string>
+    <string name="no_salary_yet">இன்னும் சம்பளம் உள்ளிடப்படவில்லை. சேர்க்க \"சம்பளத்தை மாற்று\" ஐத் தட்டவும்.</string>
+    <string name="from_month">%1$s முதல்</string>
+    <string name="changed_on">%1$s அன்று மாற்றப்பட்டது</string>
+
+    <!-- நிலையான செலவுகள் -->
+    <string name="fixed_hint">வாடகை போல ஒவ்வொரு மாதமும் மாறாத பில்கள். இவை உங்கள் சம்பளத்திலிருந்து தானாகக் கழிக்கப்படும்.</string>
+    <string name="total_this_month">இந்த மாத மொத்தம்</string>
+    <string name="no_fixed_yet">இன்னும் நிலையான செலவுகள் இல்லை. வாடகை, குடும்ப நிதி போன்ற மாதாந்திர பில்களைச் சேர்க்கவும்.</string>
+    <string name="add_fixed">நிலையான செலவைச் சேர்</string>
+    <string name="edit_fixed">நிலையான செலவைத் திருத்து</string>
+    <string name="due_day_optional">செலுத்த வேண்டிய தேதி (விருப்பம்)</string>
+    <string name="due_day_short">தேதி</string>
+    <string name="due_day_n">%1$d ஆம் தேதி செலுத்த வேண்டும்</string>
+    <string name="every_month">ஒவ்வொரு மாதமும்</string>
+    <string name="starts_next_month">அடுத்த மாதம் தொடங்கும்</string>
+    <string name="ends_after_this_month">இந்த மாதத்துடன் முடியும்</string>
+    <string name="changes_next_month">அடுத்த மாதம் %1$s ஆக மாறும்</string>
+    <string name="fixed_removed">%1$s அகற்றப்பட்டது</string>
+    <string name="suggest_rent">வாடகை</string>
+    <string name="suggest_family_fund">குடும்ப நிதி</string>
+    <string name="suggest_eb">மின் கட்டணம்</string>
+    <string name="suggest_internet">இணையம்</string>
+
+    <!-- பிரிவுகள் -->
+    <string name="add_category">பிரிவைச் சேர்</string>
+    <string name="edit_category">பிரிவைத் திருத்து</string>
+    <string name="monthly_amount">மாதத் தொகை</string>
+    <string name="icon">சின்னம்</string>
+    <string name="colour">நிறம்</string>
+    <string name="colour_n">நிறம் %1$d</string>
+    <string name="category_type">வகை</string>
+    <string name="type_spending">செலவு</string>
+    <string name="type_savings">சேமிப்பு</string>
+    <string name="type_hint">சேமிப்புப் பிரிவுகளுக்கு அதிக செலவு எச்சரிக்கை வராது; அவற்றின் மீதமுள்ள பணம் சேமிப்புப் பெட்டிக்குச் செல்லும்.</string>
+    <string name="archive_category">பிரிவை அகற்று (வரலாறு இருக்கும்)</string>
+    <string name="category_added">%1$s சேர்க்கப்பட்டது</string>
+    <string name="category_archived">%1$s அகற்றப்பட்டது</string>
+    <string name="move_up">மேலே நகர்த்து</string>
+    <string name="move_down">கீழே நகர்த்து</string>
+    <string name="move_money">பணத்தை மாற்று</string>
+    <string name="move_money_hint">இந்த மாதத்திற்கு மட்டும் பிரிவுகளுக்கிடையே பணத்தை மாற்றவும்.</string>
+    <string name="money_moved">%2$s இலிருந்து %3$s க்கு %1$s மாற்றப்பட்டது</string>
+    <string name="sample_food">உணவு</string>
+    <string name="sample_travel">பயணம்</string>
+    <string name="sample_personal">தனிப்பட்டவை</string>
+    <string name="sample_savings">சேமிப்பு</string>
+    <string name="sample_emergency">அவசரம்</string>
+
+    <!-- திட்டம் -->
+    <string name="plan_intro">கடந்த மாதங்களில் நீங்கள் உண்மையில் செலவிட்டதை வைத்து, ஒவ்வொரு பிரிவுக்கும் பரிந்துரைத் தொகை இதோ.</string>
+    <string name="plan_needs_history">முதல் முழு மாதம் முடிந்ததும், பரிந்துரைகள் உங்கள் உண்மைச் செலவை வைத்து வரும். இப்போது தற்போதைய தொகைகள் காட்டப்படுகின்றன.</string>
+    <string name="plan_now">இப்போது</string>
+    <string name="plan_suggested">பரிந்துரை</string>
+    <string name="plan_reason_average">வழக்கமாக சுமார் %1$s செலவிடுகிறீர்கள். பாதுகாப்புக்காக சிறிது கூடுதல் சேர்க்கப்பட்டுள்ளது.</string>
+    <string name="plan_reason_scaled">உங்கள் பணத்துக்குள் திட்டம் பொருந்தக் குறைக்கப்பட்டது.</string>
+    <string name="plan_reason_no_history">முந்தைய செலவு இல்லை, எனவே மாற்றமில்லை.</string>
+    <string name="plan_reason_savings">சேமிப்புத் தொகை அப்படியே வைக்கப்பட்டது.</string>
+    <string name="plan_reason_savings_extra">திட்டத்துக்குப் பிறகு மீதமுள்ள பணம் இங்கே சேர்க்கப்பட்டது.</string>
+    <string name="use_this_plan">இந்தத் திட்டத்தைப் பயன்படுத்து</string>
+    <string name="plan_applied">திட்டம் சேமிக்கப்பட்டது</string>
+
+    <!-- ஏற்றுமதி -->
+    <string name="export_intro">உங்கள் எல்லா விவரங்களையும் Excel கோப்பாகச் சேமிக்கவும். எங்கே சேமிப்பது என்பதை நீங்களே தேர்வு செய்யலாம் (போன், Google Drive போன்றவை).</string>
+    <string name="export_all">அனைத்தும்</string>
+    <string name="export_this_month">இந்த மாதம் மட்டும்</string>
+    <string name="export_range">தேதிகளைத் தேர்வு செய்…</string>
+    <string name="export_sheets">தாள்கள்: சுருக்கம், பரிவர்த்தனைகள், பிரிவு மாதவாரி, சம்பள வரலாறு, நிலையான செலவு வரலாறு, கூடுதல் வருமானம், சேமிப்புப் பெட்டி.</string>
+    <string name="save_excel_file">Excel கோப்பைச் சேமி</string>
+    <string name="exporting">சேமிக்கிறது…</string>
+    <string name="export_done">Excel கோப்பு சேமிக்கப்பட்டது</string>
+    <string name="export_failed">கோப்பைச் சேமிக்க முடியவில்லை. மீண்டும் முயலவும்.</string>
+
+    <!-- அமைப்புகள் -->
+    <string name="profile">சுயவிவரம்</string>
+    <string name="your_name">உங்கள் பெயர்</string>
+    <string name="your_name_optional">உங்கள் பெயர் (விருப்பம்)</string>
+    <string name="language">மொழி</string>
+    <string name="app_theme">தோற்றம்</string>
+    <string name="theme_system">போனைப் போலவே</string>
+    <string name="theme_light">வெளிர்</string>
+    <string name="theme_dark">இருள்</string>
+    <string name="hide_amounts_setting">தொகைகளை மறை (₹•••• காட்டு)</string>
+    <string name="budget_month">பட்ஜெட் மாதம்</string>
+    <string name="start_day_hint">உங்கள் சம்பளம் 28 ஆம் தேதி வந்தால் 28 ஐத் தேர்ந்தெடுக்கவும்: ஒவ்வொரு மாதமும் 28 முதல் அடுத்த மாதம் 27 வரை.</string>
+    <string name="start_day_value">மாதம் %1$d ஆம் தேதி தொடங்கும்</string>
+    <string name="start_day_saved">சேமிக்கப்பட்டது. இந்த மாதம் முடிந்ததும் பொருந்தும்.</string>
+    <string name="unspent_money">மாத இறுதியில் மீதமுள்ள பணம்</string>
+    <string name="unspent_hint">செலவிடாத பணத்துக்கு என்ன ஆக வேண்டும்?</string>
+    <string name="unspent_savings">சேமிப்புக்கு மாற்று</string>
+    <string name="unspent_savings_hint">மீதமுள்ள எல்லாப் பணமும் சேமிப்புப் பெட்டிக்குச் செல்லும்.</string>
+    <string name="unspent_carry">அடுத்த மாதத்துக்குக் கொண்டு செல்</string>
+    <string name="unspent_carry_hint">ஒவ்வொரு பிரிவும் தன் மீதத்தை அடுத்த மாதம் வைத்துக்கொள்ளும்.</string>
+    <string name="unspent_reset">புதிதாகத் தொடங்கு</string>
+    <string name="unspent_reset_hint">மீதமுள்ள பணம் கொண்டு செல்லப்படாது.</string>
+    <string name="about">பற்றி</string>
+    <string name="about_text">MySelavu %1$s. முழுவதும் இணையமின்றி இயங்கும்: உங்கள் தரவு இந்த போனை விட்டு வெளியே செல்லாது.</string>
+
+    <!-- அமைவு -->
+    <string name="welcome_title">MySelavu க்கு வரவேற்கிறோம்</string>
+    <string name="welcome_text">சில தட்டல்களில் உங்கள் சம்பளம், பில்கள், செலவுகளைக் கண்காணிக்கவும். அமைக்க சுமார் 2 நிமிடங்கள்; பிறகு எதையும் மாற்றலாம்.</string>
+    <string name="choose_language">மொழி</string>
+    <string name="privacy_note">🔒 எல்லாம் உங்கள் போனிலேயே இருக்கும். கணக்கு இல்லை, இணையம் இல்லை.</string>
+    <string name="salary_step_title">உங்கள் மாதச் சம்பளம்</string>
+    <string name="salary_step_text">ஒருமுறை உள்ளிடுங்கள். நீங்கள் மாற்றும் வரை ஒவ்வொரு மாதமும் தானாகப் பயன்படுத்தப்படும்.</string>
+    <string name="monthly_salary">மாதச் சம்பளம்</string>
+    <string name="start_day_question">உங்கள் மாதம் எப்போது தொடங்குகிறது?</string>
+    <string name="day_n">%1$d ஆம் தேதி</string>
+    <string name="other_day">அல்லது தேதியை உள்ளிடவும் (1–28)</string>
+    <string name="fixed_step_title">நிலையான மாதச் செலவுகள்</string>
+    <string name="fixed_step_text">ஒவ்வொரு மாதமும் மாறாத பில்கள். பரிந்துரையைத் தட்டவும் அல்லது உங்களுடையதைச் சேர்க்கவும்.</string>
+    <string name="add_other">+ மற்றவை</string>
+    <string name="categories_step_title">உங்கள் செலவுத் திட்டம்</string>
+    <string name="categories_step_text">ஒவ்வொரு பிரிவுக்கும் மாதத் தொகையைக் கொடுங்கள். பெயர்களையும் தொகைகளையும் விருப்பம்போல் மாற்றலாம்.</string>
+    <string name="categories_step_more">பிறகு மெனுவிலிருந்து பிரிவுகளைச் சேர்க்கலாம், அகற்றலாம், வரிசை மாற்றலாம்.</string>
+    <string name="skip_for_now">தவிர், பிறகு செய்கிறேன்</string>
+    <string name="start_using">MySelavu ஐப் பயன்படுத்தத் தொடங்கு</string>
+    <string name="done_title">எல்லாம் தயார்!</string>
+    <string name="done_text">மூன்று சிறு குறிப்புகள்:</string>
+    <string name="tip_1">செலவைப் பதிவு செய்ய + செலவைச் சேர் ஐத் தட்டவும். 120+45 போன்ற கூட்டல்களை உள்ளிடலாம்.</string>
+    <string name="tip_2">நிறங்கள் உங்கள் நிலையைக் காட்டும்: ✅ பச்சை சரியான பாதை, ⚠️ மஞ்சள் கவனம், ⛔ சிவப்பு மெதுவாக.</string>
+    <string name="tip_3">வரலாறு, மாத/ஆண்டு சுருக்கங்கள், பரிந்துரைத் திட்டம், Excel ஏற்றுமதிக்கு ☰ மெனுவைத் திறக்கவும்.</string>
+
+    <!-- டெவலப்பர் கருவிகள் -->
+    <string name="dev_tools">டெவலப்பர் கருவிகள்</string>
+    <string name="dev_intro">TEST பயன்பாட்டில் மட்டும். பாதுகாப்பாகச் சோதிக்க இவற்றைப் பயன்படுத்தவும்.</string>
+    <string name="dev_load_demo">மாதிரித் தரவை ஏற்று</string>
+    <string name="dev_demo_confirm">TEST பயன்பாட்டின் எல்லாத் தரவையும் 3 மாத மாதிரிச் செலவுகளால் மாற்றும்.</string>
+    <string name="dev_demo_loaded">மாதிரித் தரவு ஏற்றப்பட்டது</string>
+    <string name="dev_time_travel">நேரப் பயணம்</string>
+    <string name="dev_fake_today">பயன்பாட்டில் இன்று: %1$s (%2$d நாட்கள் நகர்த்தப்பட்டது)</string>
+    <string name="dev_back_to_real">உண்மைத் தேதிக்குத் திரும்பு</string>
+    <string name="dev_today_is">பயன்பாடு இப்போது இன்றைய தேதியை %1$s என நினைக்கிறது</string>
+    <string name="dev_wipe">எல்லாத் தரவையும் அழி</string>
+    <string name="dev_wipe_confirm">TEST பயன்பாட்டில் உள்ள அனைத்தையும் நீக்கி அமைவை மீண்டும் தொடங்கும்.</string>
+</resources>

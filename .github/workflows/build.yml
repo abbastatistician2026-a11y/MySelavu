@@ -1,0 +1,257 @@
+name: Build
+
+# What this does, in plain words:
+#  - On every push: run all tests, take screenshots of the app, build the TEST app (APK)
+#    and publish it on the Releases page as "Test build #N".
+#  - On a version tag like v1.0.0: build the real, signed app and publish a normal Release.
+
+on:
+  push:
+    branches: [main, "claude/**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false
+
+jobs:
+  test-build:
+    name: Tests, screenshots and test APK
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK (pre-installed on GitHub runners; accept licences)
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -n 1)
+          echo "Using $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+
+      - name: Set up Gradle (with caching)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run all unit tests and record screenshots
+        run: ./gradlew --stacktrace :core:test :app:recordRoborazziDebug
+
+      - name: Upload test reports (if tests failed)
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-reports
+          path: |
+            core/build/reports/tests/
+            app/build/reports/tests/
+          retention-days: 7
+
+      - name: Build TEST app (debug APK) and release APK (for the size report)
+        run: ./gradlew --stacktrace :app:assembleDebug :app:assembleRelease
+
+      - name: Make sure the app has NO internet permission
+        run: |
+          set -e
+          AAPT2=$(ls -d "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -n 1)
+          FAIL=0
+          for apk in app/build/outputs/apk/debug/*.apk app/build/outputs/apk/release/*.apk; do
+            echo "Permissions in $apk:"
+            "$AAPT2" dump permissions "$apk" | tee /tmp/perms.txt
+            if grep -q "android.permission.INTERNET" /tmp/perms.txt; then
+              echo "::error::INTERNET permission found in $apk"
+              FAIL=1
+            fi
+          done
+          for m in $(find app/build/intermediates -path "*merged_manifest*" -name AndroidManifest.xml); do
+            if grep -q "android.permission.INTERNET" "$m"; then
+              echo "::error::INTERNET permission found in merged manifest $m"
+              FAIL=1
+            fi
+          done
+          exit $FAIL
+
+      - name: Prepare APK and size report
+        id: apk
+        run: |
+          set -e
+          N=${{ github.run_number }}
+          mkdir -p out
+          cp app/build/outputs/apk/debug/*.apk "out/MySelavu-TEST-build-$N.apk"
+          DEBUG_BYTES=$(stat -c %s out/*.apk)
+          RELEASE_APK=$(ls app/build/outputs/apk/release/*.apk | head -n 1)
+          RELEASE_BYTES=$(stat -c %s "$RELEASE_APK")
+          DEBUG_MB=$(awk "BEGIN {printf \"%.2f\", $DEBUG_BYTES/1048576}")
+          RELEASE_MB=$(awk "BEGIN {printf \"%.2f\", $RELEASE_BYTES/1048576}")
+          echo "debug_mb=$DEBUG_MB" >> "$GITHUB_OUTPUT"
+          echo "release_mb=$RELEASE_MB" >> "$GITHUB_OUTPUT"
+          {
+            echo "## APK sizes"
+            echo "| Build | Size |"
+            echo "|---|---|"
+            echo "| TEST app (debug, not shrunk) | ${DEBUG_MB} MB |"
+            echo "| Real app (release, shrunk with R8) | ${RELEASE_MB} MB |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload APK as a build artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: MySelavu-TEST-build-${{ github.run_number }}
+          path: out/*.apk
+          retention-days: 14
+
+      - name: Save screenshots and database schema to the repository
+        if: github.event_name == 'push'
+        run: |
+          set -e
+          cd docs/screenshots
+          {
+            echo "# MySelavu screenshots"
+            echo
+            echo "Generated automatically by the cloud build (build #${{ github.run_number }}). Light and dark mode, English and Tamil."
+            echo
+            for f in *.png; do
+              name="${f%.png}"
+              echo "### ${name}"
+              echo
+              echo "<img src=\"${f}\" width=\"320\" alt=\"${name}\">"
+              echo
+            done
+          } > README.md
+          cd ../..
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          if [ -d app/schemas ]; then git add app/schemas; fi
+          if git diff --cached --quiet; then
+            echo "No screenshot or schema changes."
+            exit 0
+          fi
+          git commit -m "Update screenshots and database schema (build #${{ github.run_number }}) [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep 5
+          done
+          echo "::warning::Could not push screenshots (a newer commit probably arrived). They will be updated next build."
+
+      - name: Publish "Test build" pre-release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          N=${{ github.run_number }}
+          TAG="test-build-$N"
+          cat > notes.md <<EOF
+          **MySelavu TEST**: build #$N from branch \`${GITHUB_REF_NAME}\` (commit ${GITHUB_SHA::7}).
+
+          This is the TEST app. It installs next to the real app and keeps its own separate data.
+
+          **How to install on your phone:** tap \`MySelavu-TEST-build-$N.apk\` below, open the download,
+          and allow "Install unknown apps" for your browser if Android asks.
+
+          APK size: TEST app ${{ steps.apk.outputs.debug_mb }} MB, real app (shrunk) ${{ steps.apk.outputs.release_mb }} MB.
+          EOF
+          gh release create "$TAG" out/*.apk \
+            --prerelease \
+            --title "Test build #$N" \
+            --notes-file notes.md \
+            --target "$GITHUB_SHA"
+
+          # Keep only the newest 5 test builds
+          gh release list --limit 200 --json tagName,isPrerelease \
+            --jq '.[] | select(.isPrerelease) | .tagName | select(startswith("test-build-"))' \
+            | sort -t- -k3 -n -r | tail -n +6 | while read -r old; do
+              echo "Deleting old test build $old"
+              gh release delete "$old" --yes --cleanup-tag || true
+            done
+
+  release:
+    name: Signed release APK
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK (pre-installed on GitHub runners; accept licences)
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -n 1)
+          echo "Using $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+
+      - name: Set up Gradle (with caching)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Check signing secrets are set
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          missing=0
+          for v in KEYSTORE_BASE64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!v}" ]; then echo "::error::GitHub Secret $v is not set (Settings > Secrets and variables > Actions)"; missing=1; fi
+          done
+          exit $missing
+
+      - name: Run all unit tests
+        run: ./gradlew --stacktrace :core:test :app:testDebugUnitTest
+
+      - name: Build signed release APK
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -e
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.keystore"
+          export RELEASE_KEYSTORE_PATH="$RUNNER_TEMP/release.keystore"
+          VERSION="${GITHUB_REF_NAME#v}"
+          ./gradlew --stacktrace :app:assembleRelease -PappVersionName="$VERSION"
+          rm -f "$RUNNER_TEMP/release.keystore"
+
+      - name: Verify signature and permissions
+        run: |
+          set -e
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          APK=$(ls app/build/outputs/apk/release/*.apk | head -n 1)
+          "$BT/apksigner" verify --print-certs "$APK"
+          if "$BT/aapt2" dump permissions "$APK" | grep -q "android.permission.INTERNET"; then
+            echo "::error::INTERNET permission found"; exit 1
+          fi
+          mkdir -p out
+          cp "$APK" "out/MySelavu-${GITHUB_REF_NAME}.apk"
+          SIZE=$(awk "BEGIN {printf \"%.2f\", $(stat -c %s "$APK")/1048576}")
+          echo "APK size: ${SIZE} MB" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" out/*.apk \
+            --title "MySelavu ${GITHUB_REF_NAME}" \
+            --notes "The real MySelavu app, version ${GITHUB_REF_NAME}. Install MySelavu-${GITHUB_REF_NAME}.apk on your phone. See CHANGELOG.md for what's new." \
+            --verify-tag
