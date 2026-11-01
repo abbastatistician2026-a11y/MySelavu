@@ -7,8 +7,8 @@ tracker for one person in India. Amounts are in rupees with Indian digit groupin
   Everything stays on your phone.
 - **Free.** Built in the cloud by GitHub Actions. You only install the APK.
 
-> **Status: Phase 1 of 6 (early test version).** The calculation engine and database are ready.
-> The app currently shows a design preview with sample numbers. Your own budget arrives in Phase 2.
+> **Status: Phase 2 of 6.** The app is usable: set up your salary, bills and categories, log expenses,
+> and see history, month/year summaries, a suggested plan and Excel export from the left menu.
 
 ## Screenshots
 
@@ -24,7 +24,7 @@ All screenshots: [docs/screenshots](docs/screenshots/README.md) (updated automat
 2. Find the newest **"Test build #…"** at the top.
 3. Under **Assets**, tap **`MySelavu-TEST-build-….apk`** to download it.
 4. Open the downloaded file. If Android asks, allow **"Install unknown apps"** for your browser.
-5. The app appears as **MySelavu TEST** with an orange **TEST** badge.
+5. The app appears as **MySelavu TEST**: a blue wallet icon with an orange **TEST** badge.
 
 The TEST app installs **next to** the real app and keeps **separate data**, so you can try
 things safely. Each new test build installs over the previous one; your test data stays.
