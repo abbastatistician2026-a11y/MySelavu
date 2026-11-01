@@ -2,28 +2,87 @@
 <resources>
     <string name="app_name" translatable="false">MySelavu</string>
 
+    <!-- General -->
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted</string>
+    <string name="remove">Remove</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="done">Done</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="undo">Undo</string>
+    <string name="move">Move</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="today">Today</string>
+    <string name="loading">Getting things ready…</string>
+    <string name="open_menu">Open menu</string>
+    <string name="expand">Show details</string>
+    <string name="collapse">Hide details</string>
+    <string name="period_range">%1$s – %2$s</string>
+    <string name="hello">Hello!</string>
+    <string name="hello_name">Hello, %1$s!</string>
+    <string name="drawer_money_left">Money left this month: %1$s</string>
+
+    <!-- Menu -->
+    <string name="nav_home">Home</string>
+    <string name="history">History</string>
+    <string name="month_summary">Month-wise summary</string>
+    <string name="year_summary">Year-wise summary</string>
+    <string name="salary_and_income">Salary &amp; income</string>
+    <string name="fixed_expenses">Fixed expenses</string>
+    <string name="categories">Categories</string>
+    <string name="suggested_plan">Suggested plan</string>
+    <string name="export_excel">Export to Excel</string>
+    <string name="settings_profile">Profile &amp; settings</string>
+    <string name="settings">Settings</string>
+
     <!-- Dashboard -->
     <string name="money_left">Money left</string>
     <string name="money_left_hint">After fixed bills and spending</string>
     <string name="unplanned_money">Unplanned money</string>
     <string name="unplanned_money_hint">Not given to any category yet</string>
+    <string name="unplanned_negative_hint">You planned more than you have. Lower a category.</string>
     <string name="safe_to_spend_today">Safe to spend today</string>
     <string name="spent_of_allocated">Spent %1$s of %2$s</string>
     <string name="spent_of_allocated_short">%1$s / %2$s</string>
+    <string name="left_amount">%1$s left</string>
     <plurals name="days_left">
         <item quantity="one">%d day left</item>
         <item quantity="other">%d days left</item>
     </plurals>
-    <string name="categories">Categories</string>
+    <plurals name="no_spend_streak">
+        <item quantity="one">%d no-spend day</item>
+        <item quantity="other">%d no-spend days</item>
+    </plurals>
     <string name="add_expense">Add expense</string>
+    <string name="edit_expense">Edit expense</string>
     <string name="savings_category_note">Savings: no spending warnings here.</string>
+    <string name="uses_your_pattern">Based on how you usually spend in this category.</string>
+    <string name="quick_add">Quick add</string>
+    <string name="templates_hint">Tap a quick-add button on the home screen to log it in one tap. Remove the ones you don\'t need.</string>
+    <string name="bills_this_month">Bills this month</string>
+    <string name="paid">Paid ✓</string>
+    <string name="due_soon">Due soon: %1$s</string>
+    <string name="due_on">Due %1$s</string>
+    <string name="mark_paid_hint">Tick when paid</string>
+    <string name="recent_expenses">Recent expenses</string>
+    <string name="see_all">See all</string>
+    <string name="no_expenses_yet">No expenses yet. Tap + to add your first one.</string>
+    <string name="no_categories_yet">No categories yet. Add one to start planning.</string>
+    <string name="hide_amounts">Hide amounts</string>
+    <string name="show_amounts">Show amounts</string>
 
     <!-- Status -->
     <string name="status_on_track">On track</string>
     <string name="status_careful">Careful</string>
     <string name="status_overspending">Overspending</string>
-
-    <!-- Warning sentences. %1$s = amount per day, %2$d = days -->
     <plurals name="warning_green">
         <item quantity="one">Going well: %1$s left for today.</item>
         <item quantity="other">Going well: %1$s/day left for %2$d days.</item>
@@ -38,11 +97,207 @@
     </plurals>
     <string name="warning_overspent">Over budget by %1$s. That\'s okay, you can move money from another category.</string>
 
-    <!-- Phase 1 preview -->
-    <string name="preview_banner">Early test version: these are sample numbers so you can see the design. Your own budget comes in the next update.</string>
-    <string name="preview_add_coming_soon">Adding expenses arrives in the next update.</string>
+    <!-- Add expense -->
+    <string name="category">Category</string>
+    <string name="paid_with">Paid with</string>
+    <string name="note_optional">Note (optional)</string>
+    <string name="save_as_quick">Save as quick add</string>
+    <string name="add_again_today">Add again today</string>
+    <string name="amount_negative">The total can\'t be below zero</string>
+    <string name="amount_invalid">Check the amount</string>
+    <string name="amount_too_large">That amount is too large</string>
+    <string name="backspace">Delete last digit</string>
+    <string name="clear">Clear amount</string>
+    <string name="method_upi">UPI</string>
+    <string name="method_cash">Cash</string>
+    <string name="method_debit">Debit card</string>
+    <string name="method_credit">Credit card</string>
+    <string name="method_other">Other</string>
+    <string name="expense_saved">Saved %1$s for %2$s</string>
+    <string name="expense_updated">Expense updated</string>
+    <string name="expense_deleted">Expense deleted</string>
+    <string name="expense_added_again">Added again for today</string>
+    <string name="template_deleted">Quick add removed</string>
+    <string name="unusual_hint">That\'s higher than usual for %1$s. Is it correct? Tap it in Recent expenses to change.</string>
+
+    <!-- Apply from -->
+    <string name="apply_from_title">When should this change start?</string>
+    <string name="apply_from_text">Past months never change. Choose whether this month should use the new value too.</string>
+    <string name="apply_this_month">From this month</string>
+    <string name="apply_next_month">From next month</string>
+    <string name="saved_this_month">Saved. It applies from this month.</string>
+    <string name="saved_next_month">Saved. It starts next month; this month stays the same.</string>
+
+    <!-- History -->
+    <string name="search_hint">Search note, amount or category</string>
+    <string name="range_this_month">This month</string>
+    <string name="range_last_month">Last month</string>
+    <string name="range_this_year">This year</string>
+    <string name="range_all">All time</string>
+    <string name="range_choose">Choose dates</string>
+    <string name="all_categories">All categories</string>
+    <string name="all_methods">All payment types</string>
+    <string name="total_spent_in_range">Total spent in this period</string>
+    <string name="n_expenses">%1$d expenses</string>
+    <string name="no_expenses_in_range">No expenses in this period.</string>
+
+    <!-- Summaries -->
+    <string name="savings_pot">Savings pot</string>
+    <string name="savings_pot_hint">Money moved to savings at the end of each month.</string>
+    <string name="no_months_yet">Your months will appear here.</string>
+    <string name="month_closed">Finished</string>
+    <string name="month_current">This month</string>
+    <string name="income">Income (salary + extra)</string>
+    <string name="spent">Spent</string>
+    <string name="left_over">Left over</string>
+    <string name="left_so_far">Left so far</string>
+    <string name="moved_to_savings">Moved to savings</string>
+    <string name="spent_by_month">Spent each month</string>
+    <string name="spent_by_category">Spent by category</string>
+
+    <!-- Salary -->
+    <string name="salary_this_month">Salary this month</string>
+    <string name="salary_repeats_hint">Used automatically every month until you change it.</string>
+    <string name="change_salary">Change salary</string>
+    <string name="extra_income">Extra income</string>
+    <string name="extra_income_hint">Bonus, refund or gift. Counted only in the month you get it.</string>
+    <string name="add_extra_income">Add extra income</string>
+    <string name="extra_income_note_hint">What was it? (bonus, refund…)</string>
+    <string name="extra_income_added">Extra income added</string>
+    <string name="no_extra_income">No extra income yet.</string>
+    <string name="salary_history">Salary history</string>
+    <string name="no_salary_yet">No salary entered yet. Tap \"Change salary\" to add it.</string>
+    <string name="from_month">From %1$s</string>
+    <string name="changed_on">Changed on %1$s</string>
+
+    <!-- Fixed expenses -->
+    <string name="fixed_hint">Bills that repeat every month, like rent. They are taken out of your salary automatically.</string>
+    <string name="total_this_month">Total this month</string>
+    <string name="no_fixed_yet">No fixed expenses yet. Add rent, family fund or other monthly bills.</string>
+    <string name="add_fixed">Add fixed expense</string>
+    <string name="edit_fixed">Edit fixed expense</string>
+    <string name="due_day_optional">Due day of month (optional)</string>
+    <string name="due_day_short">Due day</string>
+    <string name="due_day_n">Due on day %1$d</string>
+    <string name="every_month">Every month</string>
+    <string name="starts_next_month">Starts next month</string>
+    <string name="ends_after_this_month">Ends after this month</string>
+    <string name="changes_next_month">Changes to %1$s next month</string>
+    <string name="fixed_removed">%1$s removed</string>
+    <string name="suggest_rent">Rent</string>
+    <string name="suggest_family_fund">Family fund</string>
+    <string name="suggest_eb">EB bill</string>
+    <string name="suggest_internet">Internet</string>
+
+    <!-- Categories -->
+    <string name="add_category">Add category</string>
+    <string name="edit_category">Edit category</string>
+    <string name="monthly_amount">Amount each month</string>
+    <string name="icon">Icon</string>
+    <string name="colour">Colour</string>
+    <string name="colour_n">Colour %1$d</string>
+    <string name="category_type">Type</string>
+    <string name="type_spending">Spending</string>
+    <string name="type_savings">Savings</string>
+    <string name="type_hint">Savings categories never show overspending warnings, and their unused money goes to your Savings pot.</string>
+    <string name="archive_category">Remove category (keeps history)</string>
+    <string name="category_added">%1$s added</string>
+    <string name="category_archived">%1$s removed</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="move_money">Move money</string>
+    <string name="move_money_hint">Move money between categories for this month only.</string>
+    <string name="money_moved">Moved %1$s from %2$s to %3$s</string>
     <string name="sample_food">Food</string>
     <string name="sample_travel">Travel</string>
     <string name="sample_personal">Personal</string>
     <string name="sample_savings">Savings</string>
+    <string name="sample_emergency">Emergency</string>
+
+    <!-- Plan -->
+    <string name="plan_intro">Based on what you really spent in past months, here is a suggested amount for each category.</string>
+    <string name="plan_needs_history">After your first full month, suggestions will use your real spending. For now, your current amounts are shown.</string>
+    <string name="plan_now">Now</string>
+    <string name="plan_suggested">Suggested</string>
+    <string name="plan_reason_average">You usually spend about %1$s. A little extra is added as a cushion.</string>
+    <string name="plan_reason_scaled">Reduced so your plan fits your money.</string>
+    <string name="plan_reason_no_history">No past spending yet, so it stays the same.</string>
+    <string name="plan_reason_savings">Savings amount kept as it is.</string>
+    <string name="plan_reason_savings_extra">Money left over after the plan is added here.</string>
+    <string name="use_this_plan">Use this plan</string>
+    <string name="plan_applied">Plan saved</string>
+
+    <!-- Export -->
+    <string name="export_intro">Save all your details as an Excel file. You choose where to save it (phone, Google Drive, etc.).</string>
+    <string name="export_all">Everything</string>
+    <string name="export_this_month">This month only</string>
+    <string name="export_range">Choose dates…</string>
+    <string name="export_sheets">Sheets: Summary, Transactions, Category Monthly, Salary History, Fixed Expense History, Extra Income, Savings Pot.</string>
+    <string name="save_excel_file">Save Excel file</string>
+    <string name="exporting">Saving…</string>
+    <string name="export_done">Excel file saved</string>
+    <string name="export_failed">Couldn\'t save the file. Please try again.</string>
+
+    <!-- Settings -->
+    <string name="profile">Profile</string>
+    <string name="your_name">Your name</string>
+    <string name="your_name_optional">Your name (optional)</string>
+    <string name="language">Language</string>
+    <string name="app_theme">App theme</string>
+    <string name="theme_system">Same as phone</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="hide_amounts_setting">Hide amounts (show ₹••••)</string>
+    <string name="budget_month">Budget month</string>
+    <string name="start_day_hint">If your salary comes on the 28th, choose 28: each month then runs from the 28th to the 27th.</string>
+    <string name="start_day_value">Month starts on day %1$d</string>
+    <string name="start_day_saved">Saved. It takes effect when the current month ends.</string>
+    <string name="unspent_money">Money left at month end</string>
+    <string name="unspent_hint">What should happen to money you didn\'t spend?</string>
+    <string name="unspent_savings">Move to savings</string>
+    <string name="unspent_savings_hint">All money left over goes to your Savings pot.</string>
+    <string name="unspent_carry">Carry forward</string>
+    <string name="unspent_carry_hint">Each category keeps its leftover for next month.</string>
+    <string name="unspent_reset">Start fresh</string>
+    <string name="unspent_reset_hint">Leftover money is not carried over.</string>
+    <string name="about">About</string>
+    <string name="about_text">MySelavu %1$s. Works fully offline: your data never leaves this phone.</string>
+
+    <!-- Setup -->
+    <string name="welcome_title">Welcome to MySelavu</string>
+    <string name="welcome_text">Track your salary, bills and spending in a few taps. Setup takes about 2 minutes, and you can change everything later.</string>
+    <string name="choose_language">Language</string>
+    <string name="privacy_note">🔒 Everything stays on your phone. No account, no internet.</string>
+    <string name="salary_step_title">Your monthly salary</string>
+    <string name="salary_step_text">Enter it once. Every month uses it automatically until you change it.</string>
+    <string name="monthly_salary">Monthly salary</string>
+    <string name="start_day_question">When does your month start?</string>
+    <string name="day_n">Day %1$d</string>
+    <string name="other_day">Or type a day (1–28)</string>
+    <string name="fixed_step_title">Fixed monthly expenses</string>
+    <string name="fixed_step_text">Bills that are the same every month. Tap a suggestion or add your own.</string>
+    <string name="add_other">+ Other</string>
+    <string name="categories_step_title">Your spending plan</string>
+    <string name="categories_step_text">Give each category an amount for the month. Change the names and amounts as you like.</string>
+    <string name="categories_step_more">You can add, remove and reorder categories later from the menu.</string>
+    <string name="skip_for_now">Skip, I\'ll do it later</string>
+    <string name="start_using">Start using MySelavu</string>
+    <string name="done_title">All set!</string>
+    <string name="done_text">Three quick tips:</string>
+    <string name="tip_1">Tap + Add expense to log spending. You can type sums like 120+45.</string>
+    <string name="tip_2">Colours show how you\'re doing: ✅ green on track, ⚠️ amber careful, ⛔ red slow down.</string>
+    <string name="tip_3">Open the menu ☰ for history, month and year summaries, a suggested plan and Excel export.</string>
+
+    <!-- Developer tools (TEST app) -->
+    <string name="dev_tools">Developer tools</string>
+    <string name="dev_intro">Only in the TEST app. Use these to try things safely.</string>
+    <string name="dev_load_demo">Load demo data</string>
+    <string name="dev_demo_confirm">This replaces all data in the TEST app with 3 months of sample expenses.</string>
+    <string name="dev_demo_loaded">Demo data loaded</string>
+    <string name="dev_time_travel">Time travel</string>
+    <string name="dev_fake_today">Today in the app: %1$s (shifted by %2$d days)</string>
+    <string name="dev_back_to_real">Back to real date</string>
+    <string name="dev_today_is">The app now thinks today is %1$s</string>
+    <string name="dev_wipe">Wipe all data</string>
+    <string name="dev_wipe_confirm">This deletes everything in the TEST app and starts setup again.</string>
 </resources>

@@ -338,6 +338,12 @@ data class DaySum(
     @ColumnInfo(name = "totalPaise") val totalPaise: Long,
 )
 
+data class DayCategorySum(
+    @ColumnInfo(name = "date") val date: LocalDate,
+    @ColumnInfo(name = "categoryId") val categoryId: Long,
+    @ColumnInfo(name = "totalPaise") val totalPaise: Long,
+)
+
 data class MethodSum(
     @ColumnInfo(name = "method") val method: PaymentMethod,
     @ColumnInfo(name = "totalPaise") val totalPaise: Long,

@@ -26,8 +26,19 @@ interface RulesDao {
     @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM extra_income WHERE date BETWEEN :from AND :to")
     suspend fun extraIncomeTotal(from: LocalDate, to: LocalDate): Long
 
+    @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM extra_income WHERE date BETWEEN :from AND :to")
+    fun observeExtraIncomeTotal(from: LocalDate, to: LocalDate): Flow<Long>
+    @Query("SELECT * FROM extra_income ORDER BY date DESC, id DESC")
+    fun observeAllExtraIncome(): Flow<List<ExtraIncomeEntity>>
+    @Query("SELECT * FROM extra_income ORDER BY date, id")
+    suspend fun allExtraIncome(): List<ExtraIncomeEntity>
+    @Query("SELECT * FROM salary_rule ORDER BY effectiveFrom, id")
+    suspend fun allSalaryRules(): List<SalaryRuleEntity>
+
     // Fixed expenses
     @Insert suspend fun insertFixedExpense(fixed: FixedExpenseEntity): Long
+    @Query("SELECT * FROM fixed_expense_rule ORDER BY fixedExpenseId, effectiveFrom, id")
+    fun observeFixedExpenseRules(): Flow<List<FixedExpenseRuleEntity>>
     @Insert suspend fun insertFixedExpenseRule(rule: FixedExpenseRuleEntity): Long
     @Query("SELECT * FROM fixed_expense_rule ORDER BY fixedExpenseId, effectiveFrom, id")
     suspend fun fixedExpenseRules(): List<FixedExpenseRuleEntity>
@@ -42,6 +53,10 @@ interface RulesDao {
     fun observeActiveCategories(): Flow<List<CategoryEntity>>
     @Query("SELECT * FROM category_rule ORDER BY categoryId, effectiveFrom, id")
     suspend fun categoryRules(): List<CategoryRuleEntity>
+    @Query("SELECT * FROM category ORDER BY sortOrder, id")
+    fun observeAllCategories(): Flow<List<CategoryEntity>>
+    @Query("SELECT * FROM category WHERE id = :id")
+    suspend fun category(id: Long): CategoryEntity?
 
     // Sub-categories
     @Insert suspend fun insertSubCategory(sub: SubCategoryEntity): Long
@@ -65,6 +80,22 @@ interface PeriodDao {
     fun observeLatestPeriod(): Flow<BudgetPeriodEntity?>
     @Query("SELECT * FROM budget_period ORDER BY startDate DESC")
     fun observePeriods(): Flow<List<BudgetPeriodEntity>>
+    @Query("SELECT * FROM budget_period ORDER BY startDate")
+    suspend fun allPeriods(): List<BudgetPeriodEntity>
+    @Query("SELECT MIN(startDate) FROM budget_period")
+    suspend fun firstPeriodStartEpochDay(): Long?
+    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun upsertPeriodFixed(row: PeriodFixedExpenseEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun upsertPeriodCategory(row: PeriodCategoryEntity)
+    @Query("DELETE FROM period_fixed_expense WHERE periodStart = :start AND fixedExpenseId = :fixedId")
+    suspend fun deletePeriodFixed(start: LocalDate, fixedId: Long)
+    @Query("DELETE FROM period_category WHERE periodStart = :start AND categoryId = :categoryId")
+    suspend fun deletePeriodCategory(start: LocalDate, categoryId: Long)
+    @Query("SELECT * FROM period_category ORDER BY periodStart, categoryId")
+    suspend fun allPeriodCategories(): List<PeriodCategoryEntity>
+    @Query("SELECT * FROM period_fixed_expense ORDER BY periodStart, fixedExpenseId")
+    suspend fun allPeriodFixed(): List<PeriodFixedExpenseEntity>
+    @Query("SELECT * FROM category_transfer ORDER BY periodStart, id")
+    suspend fun allTransfers(): List<CategoryTransferEntity>
     @Query("SELECT * FROM budget_period WHERE startDate = :start")
     suspend fun period(start: LocalDate): BudgetPeriodEntity?
     @Query("SELECT * FROM budget_period WHERE :date BETWEEN startDate AND endDate LIMIT 1")
@@ -99,6 +130,27 @@ interface ExpenseDao {
 
     @Query("SELECT * FROM expense ORDER BY date DESC, createdAt DESC LIMIT :limit")
     fun observeRecent(limit: Int): Flow<List<ExpenseEntity>>
+
+    @Query("SELECT * FROM expense WHERE date BETWEEN :from AND :to ORDER BY date, createdAt")
+    suspend fun between(from: LocalDate, to: LocalDate): List<ExpenseEntity>
+
+    @Query("SELECT * FROM expense ORDER BY date, createdAt")
+    suspend fun all(): List<ExpenseEntity>
+
+    @Query("SELECT * FROM expense ORDER BY createdAt DESC LIMIT :limit")
+    suspend fun latestCreated(limit: Int): List<ExpenseEntity>
+
+    @Query(
+        "SELECT date, categoryId, SUM(amountPaise) AS totalPaise FROM expense " +
+            "WHERE date BETWEEN :from AND :to GROUP BY date, categoryId"
+    )
+    suspend fun dailyCategoryTotals(from: LocalDate, to: LocalDate): List<DayCategorySum>
+
+    @Query(
+        "SELECT DISTINCT e.date FROM expense e INNER JOIN category c ON c.id = e.categoryId " +
+            "WHERE c.type = 'SPENDING' AND e.date BETWEEN :from AND :to"
+    )
+    fun observeSpendingDays(from: LocalDate, to: LocalDate): Flow<List<Long>>
 
     @Query("SELECT * FROM expense ORDER BY createdAt DESC LIMIT 1")
     suspend fun lastCreated(): ExpenseEntity?
@@ -142,6 +194,8 @@ interface ExpenseDao {
     @Insert suspend fun insertTemplate(template: QuickTemplateEntity): Long
     @Update suspend fun updateTemplate(template: QuickTemplateEntity)
     @Delete suspend fun deleteTemplate(template: QuickTemplateEntity)
+    @Query("UPDATE quick_template SET useCount = useCount + 1 WHERE id = :id")
+    suspend fun incrementTemplateUse(id: Long)
     @Query("SELECT * FROM quick_template ORDER BY sortOrder, useCount DESC, id")
     fun observeTemplates(): Flow<List<QuickTemplateEntity>>
 }
@@ -162,6 +216,10 @@ interface PlanningDao {
     @Delete suspend fun deletePotEntry(entry: SavingsPotEntryEntity)
     @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM savings_pot_entry")
     fun observePotTotal(): Flow<Long>
+    @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM savings_pot_entry")
+    suspend fun potTotal(): Long
+    @Query("SELECT * FROM savings_pot_entry ORDER BY date, id")
+    suspend fun allPotEntries(): List<SavingsPotEntryEntity>
     @Query("SELECT * FROM savings_pot_entry ORDER BY date DESC, id DESC")
     fun observePotEntries(): Flow<List<SavingsPotEntryEntity>>
 

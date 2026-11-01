@@ -20,6 +20,7 @@ enum class ThemeMode { SYSTEM, LIGHT, DARK }
 /** App settings with friendly defaults, so nothing needs configuring before first use. */
 data class AppSettings(
     val setupDone: Boolean = false,
+    val profileName: String = "",
     val language: String = "en",
     val theme: ThemeMode = ThemeMode.SYSTEM,
     val budgetStartDay: Int = 1,
@@ -42,6 +43,7 @@ class SettingsRepository(private val context: Context) {
 
     private object Keys {
         val setupDone = booleanPreferencesKey("setup_done")
+        val profileName = stringPreferencesKey("profile_name")
         val language = stringPreferencesKey("language")
         val theme = stringPreferencesKey("theme")
         val startDay = intPreferencesKey("budget_start_day")
@@ -60,6 +62,7 @@ class SettingsRepository(private val context: Context) {
         val d = AppSettings()
         AppSettings(
             setupDone = p[Keys.setupDone] ?: d.setupDone,
+            profileName = p[Keys.profileName] ?: d.profileName,
             language = p[Keys.language] ?: d.language,
             theme = p[Keys.theme]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: d.theme,
             budgetStartDay = (p[Keys.startDay] ?: d.budgetStartDay).coerceIn(1, 28),
@@ -78,6 +81,7 @@ class SettingsRepository(private val context: Context) {
     suspend fun current(): AppSettings = settings.first()
 
     suspend fun setSetupDone(done: Boolean) = context.dataStore.edit { it[Keys.setupDone] = done }
+    suspend fun setProfileName(name: String) = context.dataStore.edit { it[Keys.profileName] = name.trim() }
     suspend fun setLanguage(tag: String) = context.dataStore.edit { it[Keys.language] = tag }
     suspend fun setTheme(mode: ThemeMode) = context.dataStore.edit { it[Keys.theme] = mode.name }
     suspend fun setBudgetStartDay(day: Int) = context.dataStore.edit { it[Keys.startDay] = day.coerceIn(1, 28) }
