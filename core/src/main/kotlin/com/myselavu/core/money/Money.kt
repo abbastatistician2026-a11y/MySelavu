@@ -31,6 +31,9 @@ value class Money(val paise: Long) : Comparable<Money> {
     val isNegative: Boolean get() = paise < 0
     val isZero: Boolean get() = paise == 0L
 
+    /** Rounds down to whole rupees (₹503.07 → ₹503). Used for friendly "per day" amounts. */
+    fun floorToRupee(): Money = Money(Math.floorDiv(paise, 100L) * 100L)
+
     fun coerceAtLeastZero(): Money = if (paise < 0) ZERO else this
     fun abs(): Money = if (paise < 0) -this else this
 

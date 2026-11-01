@@ -24,7 +24,7 @@ data class WarningResult(
     val remaining: Money,
     /** Days left including today. */
     val daysLeft: Int,
-    /** remaining ÷ daysLeft, never below zero: "₹17/day left for 20 days". */
+    /** remaining ÷ daysLeft in whole rupees, never below zero: "₹17/day left for 20 days". */
     val perDayLeft: Money,
 )
 
@@ -64,7 +64,7 @@ object Warnings {
         val timePct = (expectedFraction ?: linear).coerceIn(0.0, 1.0).let { if (it <= 0.0) linear else it }
 
         val remaining = allocated - spent
-        val perDay = remaining.coerceAtLeastZero().divFloor(daysLeftInclToday.toLong())
+        val perDay = remaining.coerceAtLeastZero().divFloor(daysLeftInclToday.toLong()).floorToRupee()
 
         // Projection: spent ÷ timePct, rounded to paise.
         val projected = Money(Math.round(spent.paise / timePct))

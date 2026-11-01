@@ -76,6 +76,8 @@ class WarningsTest {
         assertEquals(20, res.daysLeft)
         assertEquals(r(17), res.perDayLeft)
         assertEquals(r(1800), res.projected)
+        // ₹341 over 20 days = ₹17.05 → shown as whole rupees
+        assertEquals(r(17), Warnings.evaluate(r(659), r(1000), 11, 30).perDayLeft)
         assertEquals(RED, res.level)
     }
 

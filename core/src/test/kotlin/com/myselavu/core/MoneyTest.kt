@@ -25,6 +25,7 @@ class MoneyTest {
         assertEquals(Money(33), Money(100).divFloor(3))
         assertEquals(Money(34), Money(100).divCeil(3))
         assertEquals(Money(-34), Money(-100).divFloor(3))
+        assertEquals(Money.rupees(503), Money(50307).floorToRupee())
     }
 
     @Test(expected = ArithmeticException::class)

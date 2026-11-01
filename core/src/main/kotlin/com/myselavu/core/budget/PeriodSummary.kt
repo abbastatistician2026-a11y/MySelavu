@@ -48,12 +48,12 @@ data class PeriodSummary(
 
     val daysLeftIncludingToday: Int get() = snapshot.period.daysLeftIncludingToday(today)
 
-    /** "Safe to spend today" = remaining spending budget ÷ days left (never below zero). */
+    /** "Safe to spend today" = remaining spending budget ÷ days left (never below zero, whole rupees). */
     val safeToSpendToday: Money
         get() {
             val days = daysLeftIncludingToday
             if (days <= 0) return Money.ZERO
-            return spendingRemaining.coerceAtLeastZero().divFloor(days.toLong())
+            return spendingRemaining.coerceAtLeastZero().divFloor(days.toLong()).floorToRupee()
         }
 
     fun category(id: Long): CategoryStatus? = categories.firstOrNull { it.categoryId == id }

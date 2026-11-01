@@ -69,14 +69,14 @@ class ScreenshotTest {
     fun launcher_icon() = shot("07_launcher_icons") {
         Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             for (shape in listOf(CircleShape, RoundedCornerShape(28.dp))) {
-                Box(Modifier.size(144.dp).clip(shape)) {
-                    Image(painterResource(R.drawable.ic_launcher_background), null, Modifier.size(144.dp))
-                    Image(painterResource(R.drawable.ic_launcher_foreground), null, Modifier.size(144.dp))
+                Box(Modifier.size(112.dp).clip(shape)) {
+                    Image(painterResource(R.drawable.ic_launcher_background), null, Modifier.size(112.dp))
+                    Image(painterResource(R.drawable.ic_launcher_foreground), null, Modifier.size(112.dp))
                 }
             }
-            Box(Modifier.size(144.dp).clip(CircleShape)) {
-                Box(Modifier.size(144.dp).clip(CircleShape)) {
-                    Image(painterResource(R.drawable.ic_launcher_monochrome), null, Modifier.size(144.dp),
+            Box(Modifier.size(112.dp).clip(CircleShape)) {
+                Box(Modifier.size(112.dp).clip(CircleShape)) {
+                    Image(painterResource(R.drawable.ic_launcher_monochrome), null, Modifier.size(112.dp),
                         colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF0E6B68)))
                 }
             }

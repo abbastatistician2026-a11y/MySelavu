@@ -95,7 +95,8 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = Palette.Night4,
     onSurfaceVariant = Color(0xFFC4C0B8),
     surfaceTint = Palette.Teal200,
-    surfaceContainerLowest = Palette.Night0,
+    // Cards use surfaceContainerLowest; keep them visibly lifted off the true-black background.
+    surfaceContainerLowest = Palette.Night2,
     surfaceContainerLow = Palette.Night2,
     surfaceContainer = Palette.Night3,
     surfaceContainerHigh = Palette.Night4,
