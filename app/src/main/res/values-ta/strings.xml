@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- முகப்பு -->
+    <string name="money_left">மீதமுள்ள பணம்</string>
+    <string name="money_left_hint">நிலையான செலவுகள், செலவுகளுக்குப் பிறகு</string>
+    <string name="unplanned_money">திட்டமிடாத பணம்</string>
+    <string name="unplanned_money_hint">எந்தப் பிரிவுக்கும் ஒதுக்கப்படவில்லை</string>
+    <string name="safe_to_spend_today">இன்று பாதுகாப்பாகச் செலவிடலாம்</string>
+    <string name="spent_of_allocated">%2$s இல் %1$s செலவு</string>
+    <string name="spent_of_allocated_short">%1$s / %2$s</string>
+    <plurals name="days_left">
+        <item quantity="one">%d நாள் மீதம்</item>
+        <item quantity="other">%d நாட்கள் மீதம்</item>
+    </plurals>
+    <string name="categories">பிரிவுகள்</string>
+    <string name="add_expense">செலவைச் சேர்</string>
+    <string name="savings_category_note">சேமிப்பு: இங்கே செலவு எச்சரிக்கைகள் இல்லை.</string>
+
+    <!-- நிலை -->
+    <string name="status_on_track">சரியான பாதையில்</string>
+    <string name="status_careful">கவனம்</string>
+    <string name="status_overspending">அதிக செலவு</string>
+
+    <plurals name="warning_green">
+        <item quantity="one">நன்றாக உள்ளது: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">நன்றாக உள்ளது: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <plurals name="warning_yellow">
+        <item quantity="one">சற்று வேகம்: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">சற்று வேகம்: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <plurals name="warning_red">
+        <item quantity="one">மெதுவாக: இன்றைக்கு %1$s மீதம்.</item>
+        <item quantity="other">மெதுவாக: %2$d நாட்களுக்கு நாளொன்றுக்கு %1$s மீதம்.</item>
+    </plurals>
+    <string name="warning_overspent">பட்ஜெட்டை விட %1$s அதிகம். பரவாயில்லை, வேறு பிரிவிலிருந்து பணத்தை மாற்றலாம்.</string>
+
+    <string name="preview_banner">ஆரம்ப சோதனைப் பதிப்பு: வடிவமைப்பைக் காட்ட இவை மாதிரி எண்கள். உங்கள் சொந்த பட்ஜெட் அடுத்த பதிப்பில் வரும்.</string>
+    <string name="preview_add_coming_soon">செலவு சேர்க்கும் வசதி அடுத்த பதிப்பில் வரும்.</string>
+    <string name="sample_food">உணவு</string>
+    <string name="sample_travel">பயணம்</string>
+    <string name="sample_personal">தனிப்பட்டவை</string>
+    <string name="sample_savings">சேமிப்பு</string>
+</resources>

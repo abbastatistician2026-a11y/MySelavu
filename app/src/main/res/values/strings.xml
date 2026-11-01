@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">MySelavu</string>
+
+    <!-- Dashboard -->
+    <string name="money_left">Money left</string>
+    <string name="money_left_hint">After fixed bills and spending</string>
+    <string name="unplanned_money">Unplanned money</string>
+    <string name="unplanned_money_hint">Not given to any category yet</string>
+    <string name="safe_to_spend_today">Safe to spend today</string>
+    <string name="spent_of_allocated">Spent %1$s of %2$s</string>
+    <string name="spent_of_allocated_short">%1$s / %2$s</string>
+    <plurals name="days_left">
+        <item quantity="one">%d day left</item>
+        <item quantity="other">%d days left</item>
+    </plurals>
+    <string name="categories">Categories</string>
+    <string name="add_expense">Add expense</string>
+    <string name="savings_category_note">Savings: no spending warnings here.</string>
+
+    <!-- Status -->
+    <string name="status_on_track">On track</string>
+    <string name="status_careful">Careful</string>
+    <string name="status_overspending">Overspending</string>
+
+    <!-- Warning sentences. %1$s = amount per day, %2$d = days -->
+    <plurals name="warning_green">
+        <item quantity="one">Going well: %1$s left for today.</item>
+        <item quantity="other">Going well: %1$s/day left for %2$d days.</item>
+    </plurals>
+    <plurals name="warning_yellow">
+        <item quantity="one">A little fast: %1$s left for today.</item>
+        <item quantity="other">A little fast: %1$s/day left for %2$d days.</item>
+    </plurals>
+    <plurals name="warning_red">
+        <item quantity="one">Slow down: %1$s left for today.</item>
+        <item quantity="other">Slow down: %1$s/day left for %2$d days.</item>
+    </plurals>
+    <string name="warning_overspent">Over budget by %1$s. That\'s okay, you can move money from another category.</string>
+
+    <!-- Phase 1 preview -->
+    <string name="preview_banner">Early test version: these are sample numbers so you can see the design. Your own budget comes in the next update.</string>
+    <string name="preview_add_coming_soon">Adding expenses arrives in the next update.</string>
+    <string name="sample_food">Food</string>
+    <string name="sample_travel">Travel</string>
+    <string name="sample_personal">Personal</string>
+    <string name="sample_savings">Savings</string>
+</resources>

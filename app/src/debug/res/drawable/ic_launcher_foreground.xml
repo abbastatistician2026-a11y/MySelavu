@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#33000000" android:pathData="M54,56m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+    <path android:fillColor="@color/icon_coin" android:pathData="M54,54m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+    <path android:strokeColor="@color/icon_coin_rim" android:strokeWidth="2" android:pathData="M54,54m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+    <path android:strokeColor="@color/icon_symbol" android:strokeWidth="3.4" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M44.5,42.5H63.5M44.5,49.5H63.5M44.5,42.5H50C55.8,42.5 58.8,45.6 58.8,49.6C58.8,53.6 55.8,56.8 50,56.8H45.5L57.5,67" />
+    <!-- orange TEST badge -->
+    <path android:fillColor="#FFFF6D00" android:pathData="M37,66H71A4,4 0,0 1,75 70V75A4,4 0,0 1,71 79H37A4,4 0,0 1,33 75V70A4,4 0,0 1,37 66Z" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="1.6" android:strokeLineCap="square" android:strokeLineJoin="miter"
+        android:pathData="M39.5,69H45.5M42.5,69V76M48.5,69V76M48.5,69H53M48.5,72.5H52.2M48.5,76H53M60.8,69H56V72.5H60.8V76H56M63.5,69H69.5M66.5,69V76" />
+</vector>

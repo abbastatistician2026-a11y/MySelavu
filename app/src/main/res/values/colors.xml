@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="window_background">#FFFBF8F3</color>
+    <color name="icon_background">#FF0E6B68</color>
+    <color name="icon_coin">#FFF4A62A</color>
+    <color name="icon_coin_rim">#FFD9860F</color>
+    <color name="icon_symbol">#FF0A4F4D</color>
+</resources>
