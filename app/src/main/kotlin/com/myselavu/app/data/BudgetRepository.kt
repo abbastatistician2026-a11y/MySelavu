@@ -484,6 +484,60 @@ class BudgetRepository(
     suspend fun potTotal(): Money = Money(planningDao.potTotal())
 
     // ------------------------------------------------------------------
+    // Clearing old history (keeps the app small after many years)
+    // ------------------------------------------------------------------
+
+    data class ClearResult(val expensesDeleted: Int, val monthsDeleted: Int, val keptFrom: LocalDate)
+
+    /**
+     * Deletes expenses, extra income and finished months that start before the budget month
+     * containing [requested]. The current month is never touched. The Savings pot total is kept
+     * (old entries are folded into one "balance" entry). Salary/bill/category settings are kept.
+     */
+    suspend fun clearHistoryBefore(requested: LocalDate): ClearResult {
+        val current = currentPeriod()
+        val periods = periodDao.allPeriods()
+        val containing = periods.firstOrNull { !requested.isBefore(it.startDate) && !requested.isAfter(it.endDate) }
+        var keepFrom = containing?.startDate ?: requested
+        if (current != null && keepFrom.isAfter(current.startDate)) keepFrom = current.startDate
+        var expenses = 0
+        var months = 0
+        db.withTransaction {
+            val potOld = planningDao.potSumBefore(keepFrom)
+            val oldPotEntries = planningDao.deletePotBefore(keepFrom)
+            if (oldPotEntries > 0 && potOld != 0L) {
+                planningDao.insertPotEntry(
+                    SavingsPotEntryEntity(date = keepFrom, amountPaise = potOld, kind = PotEntryKind.CARRIED_BALANCE,
+                        note = "Balance from cleared history", createdAt = now())
+                )
+            }
+            expenses = expenseDao.deleteBefore(keepFrom)
+            rulesDao.deleteExtraIncomeBefore(keepFrom)
+            periodDao.deleteTransfersBefore(keepFrom)
+            months = periodDao.deletePeriodsBefore(keepFrom)
+        }
+        return ClearResult(expenses, months, keepFrom)
+    }
+
+    /** Applies the "keep history for N years" setting. Returns null when there was nothing to clear. */
+    suspend fun applyRetention(): ClearResult? {
+        val years = settings.current().keepHistoryYears
+        if (years <= 0) return null
+        val cutoff = com.myselavu.core.backup.HistoryRetention.cutoff(clock.today(), years)
+        val oldest = periodDao.firstPeriodStartEpochDay()?.let(LocalDate::ofEpochDay) ?: return null
+        if (!oldest.isBefore(cutoff)) return null
+        return clearHistoryBefore(cutoff)
+    }
+
+    data class StorageInfo(val expenseCount: Int, val monthCount: Int, val oldest: LocalDate?)
+
+    suspend fun storageInfo(): StorageInfo = StorageInfo(
+        expenseCount = expenseDao.count(),
+        monthCount = periodDao.allPeriods().size,
+        oldest = listOfNotNull(expenseDao.oldestEpochDay(), periodDao.firstPeriodStartEpochDay()).minOrNull()?.let(LocalDate::ofEpochDay),
+    )
+
+    // ------------------------------------------------------------------
     // Developer tools
     // ------------------------------------------------------------------
 

@@ -65,7 +65,7 @@ import com.myselavu.core.money.Money
 import androidx.compose.foundation.isSystemInDarkTheme
 import kotlinx.coroutines.launch
 
-enum class Dest { HOME, HISTORY, MONTHS, YEARS, SALARY, FIXED, CATEGORIES, PLAN, EXPORT, SETTINGS, DEV }
+enum class Dest { HOME, HISTORY, MONTHS, YEARS, SALARY, FIXED, CATEGORIES, PLAN, EXPORT, BACKUP, SETTINGS, DEV }
 
 /** What the add/edit expense sheet is showing. */
 private data class SheetRequest(val existing: ExpenseEntity?, val presetCategory: Long?)
@@ -90,7 +90,9 @@ fun MySelavuRoot(vm: AppViewModel = viewModel(factory = AppViewModel.Factory)) {
         }
         when {
             s == null -> Spacer(Modifier.fillMaxSize())
-            !s.setupDone -> SetupWizard(language, changeLanguage) { salary, fixed, cats, startDay, name ->
+            !s.setupDone -> SetupWizard(language, changeLanguage, restoreSlot = {
+                com.myselavu.app.ui.more.RestoreButton(vm, Modifier.fillMaxWidth(), R.string.setup_restore_button)
+            }) { salary, fixed, cats, startDay, name ->
                 vm.completeSetup(salary, fixed, cats, startDay, name)
             }
             else -> MainApp(vm, language, changeLanguage)
@@ -157,6 +159,7 @@ private fun MainApp(vm: AppViewModel, language: String, changeLanguage: (String)
         add(DrawerEntry(Dest.CATEGORIES, R.string.categories, AppIcons.Category))
         add(DrawerEntry(Dest.PLAN, R.string.suggested_plan, AppIcons.Lightbulb))
         add(DrawerEntry(Dest.EXPORT, R.string.export_excel, AppIcons.Download))
+        add(DrawerEntry(Dest.BACKUP, R.string.backup_and_storage, AppIcons.Lock))
         add(DrawerEntry(Dest.SETTINGS, R.string.settings_profile, AppIcons.Settings))
         if (BuildConfig.DEBUG) add(DrawerEntry(Dest.DEV, R.string.dev_tools, AppIcons.Build))
     }
@@ -207,7 +210,16 @@ private fun MainApp(vm: AppViewModel, language: String, changeLanguage: (String)
                     onSeeAll = { go(Dest.HISTORY) },
                     onOpenCategories = { go(Dest.CATEGORIES) },
                     onOpenSalary = { go(Dest.SALARY) },
+                    onBackupNow = { go(Dest.BACKUP) },
+                    onBackupLater = { vm.snoozeBackupReminder() },
                 ),
+                showBackupReminder = dashboard?.let { d ->
+                    val nowMs = System.currentTimeMillis()
+                    val month = 30L * 24 * 60 * 60 * 1000
+                    nowMs > s.backupReminderSnoozedUntil && if (s.lastBackupAt == 0L) {
+                        java.time.temporal.ChronoUnit.DAYS.between(d.trackingSince, d.today) >= 30
+                    } else nowMs - s.lastBackupAt > month
+                } ?: false,
             )
             Dest.HISTORY -> {
                 val hvm: HistoryViewModel = viewModel(factory = HistoryViewModel.Factory)
@@ -264,6 +276,9 @@ private fun MainApp(vm: AppViewModel, language: String, changeLanguage: (String)
                 snackbar = snackbar, onMenu = openMenu,
                 export = { out, from, to -> vm.exportExcel(out, from, to) },
                 onDone = { vm.exportDone(it) },
+            )
+            Dest.BACKUP -> com.myselavu.app.ui.more.BackupScreen(
+                vm = vm, keepYears = s.keepHistoryYears, lastBackupAt = s.lastBackupAt, snackbar = snackbar, onMenu = openMenu,
             )
             Dest.SETTINGS -> SettingsScreen(
                 settings = s, language = language, snackbar = snackbar, onMenu = openMenu,

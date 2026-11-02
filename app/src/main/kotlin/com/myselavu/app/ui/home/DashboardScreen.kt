@@ -78,6 +78,8 @@ data class DashboardActions(
     val onSeeAll: () -> Unit = {},
     val onOpenCategories: () -> Unit = {},
     val onOpenSalary: () -> Unit = {},
+    val onBackupNow: () -> Unit = {},
+    val onBackupLater: () -> Unit = {},
 )
 
 @Composable
@@ -86,6 +88,7 @@ fun DashboardScreen(
     templates: List<QuickTemplateEntity>,
     snackbar: SnackbarHostState,
     actions: DashboardActions,
+    showBackupReminder: Boolean = false,
 ) {
     ScreenScaffold(
         title = stringResource(R.string.app_name),
@@ -147,6 +150,9 @@ fun DashboardScreen(
                 }
             }
             item { SafeToSpendCard(state, hidden) }
+            if (showBackupReminder) {
+                item { BackupReminderCard(actions.onBackupNow, actions.onBackupLater) }
+            }
             if (templates.isNotEmpty()) {
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -300,6 +306,26 @@ fun CategoryCardView(card: CategoryCard, hidden: Boolean, onClick: () -> Unit) {
                     Text(stringResource(R.string.uses_your_pattern), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BackupReminderCard(onNow: () -> Unit, onLater: () -> Unit) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text("🔒 " + stringResource(R.string.backup_reminder_title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.backup_reminder_text), style = MaterialTheme.typography.bodyMedium)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                androidx.compose.material3.Button(onClick = onNow, modifier = Modifier.heightIn(min = 48.dp)) {
+                    Text(stringResource(R.string.backup_now))
+                }
+                TextButton(onClick = onLater, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.later)) }
             }
         }
     }

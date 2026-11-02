@@ -91,6 +91,7 @@ private val defaultCats = listOf(
 fun SetupWizard(
     language: String,
     onLanguage: (String) -> Unit,
+    restoreSlot: @Composable () -> Unit = {},
     onFinish: (salary: Money, fixed: List<FixedInput>, cats: List<CategoryInput>, startDay: Int, name: String) -> Unit,
 ) {
     var step by rememberSaveable { mutableStateOf(0) }
@@ -141,7 +142,7 @@ fun SetupWizard(
                 verticalArrangement = Arrangement.spacedBy(14.dp),
             ) {
                 when (step) {
-                    0 -> WelcomeStep(language, onLanguage, name) { name = it }
+                    0 -> { WelcomeStep(language, onLanguage, name) { name = it }; RestoreHint(restoreSlot) }
                     1 -> SalaryStep(salary, { salary = it }, startDay) { startDay = it }
                     2 -> FixedStep(fixed)
                     3 -> CategoriesStep(cats, available)
@@ -202,6 +203,17 @@ private fun WelcomeStep(language: String, onLanguage: (String) -> Unit, name: St
     OutlinedTextField(name, { onName(it.take(40)) }, label = { Text(stringResource(R.string.your_name_optional)) },
         singleLine = true, modifier = Modifier.fillMaxWidth())
     Text(stringResource(R.string.privacy_note), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+}
+
+@Composable
+private fun RestoreHint(restoreSlot: @Composable () -> Unit) {
+    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(stringResource(R.string.setup_restore_title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.setup_restore_text), style = MaterialTheme.typography.bodyMedium)
+            restoreSlot()
+        }
+    }
 }
 
 @Composable
