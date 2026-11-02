@@ -126,6 +126,8 @@ class AppViewModel(private val c: AppContainer) : ViewModel() {
             val s = c.settings.current()
             c.clock.offsetDays = s.timeTravelDays
             repo.ensureUpToDate()
+            // "Keep history for N years": quietly clear very old history to save space.
+            if (repo.applyRetention() != null) c.backup.compact()
         }
     }
 
@@ -315,6 +317,64 @@ class AppViewModel(private val c: AppContainer) : ViewModel() {
     }
     fun setUnspentMode(mode: UnspentMode) = viewModelScope.launch { c.settings.setUnspentMode(mode) }
     fun setHideAmounts(hide: Boolean) = viewModelScope.launch { c.settings.setHideAmounts(hide) }
+
+    // ---------- Backup, restore & storage ----------
+
+    data class StorageState(val sizeBytes: Long, val info: com.myselavu.app.data.BudgetRepository.StorageInfo)
+
+    private val _storage = MutableStateFlow<StorageState?>(null)
+    val storage: StateFlow<StorageState?> = _storage.asStateFlow()
+
+    fun loadStorage() = viewModelScope.launch {
+        _storage.value = StorageState(c.backup.dataSizeBytes(), repo.storageInfo())
+    }
+
+    /** Writes the backup file; returns true on success. */
+    suspend fun createBackup(out: OutputStream, password: String): Boolean = runCatching {
+        c.backup.createBackup(out, password)
+    }.isSuccess.also { ok -> say(UiMessage(if (ok) R.string.backup_saved else R.string.backup_failed)) }
+
+    suspend fun readBackupBytes(input: java.io.InputStream): ByteArray = c.backup.readAll(input)
+    fun backupIsLocked(bytes: ByteArray): Boolean = c.backup.isEncrypted(bytes)
+
+    /** Throws BackupCodec exceptions for a wrong password or a file that isn't a backup. */
+    suspend fun previewBackup(bytes: ByteArray, password: String?): com.myselavu.app.data.BackupPreview =
+        c.backup.readBackup(bytes, password)
+
+    fun restoreBackup(preview: com.myselavu.app.data.BackupPreview) = viewModelScope.launch {
+        val ok = runCatching { c.backup.restore(preview) }.isSuccess
+        if (ok) {
+            c.settings.setLastBackupAt(c.clock.millis())
+            repo.ensureUpToDate()
+            loadStorage()
+        }
+        say(UiMessage(if (ok) R.string.restore_done else R.string.restore_failed))
+    }
+
+    fun snoozeBackupReminder() = viewModelScope.launch {
+        c.settings.snoozeBackupReminder(c.clock.millis() + 30L * 24 * 60 * 60 * 1000)
+    }
+
+    /** [years] = 0 means "all past months" (everything before this month). */
+    fun clearHistory(years: Int) = viewModelScope.launch {
+        val cutoff = if (years <= 0) c.clock.today() else com.myselavu.core.backup.HistoryRetention.cutoff(c.clock.today(), years)
+        val result = repo.clearHistoryBefore(cutoff)
+        c.backup.compact()
+        loadStorage()
+        _summaries.value = null
+        say(UiMessage(R.string.history_cleared, listOf(result.expensesDeleted, result.monthsDeleted)))
+    }
+
+    fun setKeepHistoryYears(years: Int) = viewModelScope.launch {
+        c.settings.setKeepHistoryYears(years)
+        if (repo.applyRetention() != null) c.backup.compact()
+        loadStorage()
+    }
+
+    fun deleteEverything() = viewModelScope.launch {
+        repo.wipeAll()
+        c.backup.compact()
+    }
 
     // ---------- Developer tools (TEST app only) ----------
 

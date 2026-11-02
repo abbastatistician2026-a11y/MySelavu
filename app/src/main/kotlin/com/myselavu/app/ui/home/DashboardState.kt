@@ -58,6 +58,8 @@ data class DashboardState(
     val categoriesById: Map<Long, CategoryEntity>,
     val streak: Int,
     val hideAmounts: Boolean,
+    /** First day the app was used (start of the first budget month). */
+    val trackingSince: LocalDate,
 )
 
 /** Pure function: turns database rows into everything the dashboard shows. */
@@ -123,5 +125,6 @@ fun buildDashboard(
         totalSpent = summary.totalSpent, daysLeft = summary.daysLeftIncludingToday,
         overall = overall, cards = cards, bills = bills, recent = recent, categoriesById = byId,
         streak = streak, hideAmounts = settings.hideAmounts,
+        trackingSince = firstStart ?: p.start,
     )
 }

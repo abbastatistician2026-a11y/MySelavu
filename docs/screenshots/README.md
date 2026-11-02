@@ -1,6 +1,6 @@
 # MySelavu screenshots
 
-Generated automatically by the cloud build (build #8). Light and dark mode, English and Tamil.
+Generated automatically by the cloud build (build #10). Light and dark mode, English and Tamil.
 
 ### 01_home_en_light
 

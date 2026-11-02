@@ -8,7 +8,7 @@ plugins {
 
 // versionCode = GitHub Actions run number, so every cloud build can install over the previous one.
 val ciRunNumber: Int = providers.environmentVariable("GITHUB_RUN_NUMBER").orNull?.toIntOrNull() ?: 1
-val appVersionName: String = providers.gradleProperty("appVersionName").orNull ?: "0.1.0"
+val appVersionName: String = providers.gradleProperty("appVersionName").orNull ?: "1.0.0"
 
 // Release signing comes ONLY from GitHub Secrets (decoded to a temp file by the workflow).
 val releaseKeystorePath: String? = providers.environmentVariable("RELEASE_KEYSTORE_PATH").orNull

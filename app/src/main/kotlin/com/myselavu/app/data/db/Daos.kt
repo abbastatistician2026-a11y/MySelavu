@@ -30,6 +30,8 @@ interface RulesDao {
     fun observeExtraIncomeTotal(from: LocalDate, to: LocalDate): Flow<Long>
     @Query("SELECT * FROM extra_income ORDER BY date DESC, id DESC")
     fun observeAllExtraIncome(): Flow<List<ExtraIncomeEntity>>
+    @Query("DELETE FROM extra_income WHERE date < :before")
+    suspend fun deleteExtraIncomeBefore(before: LocalDate): Int
     @Query("SELECT * FROM extra_income ORDER BY date, id")
     suspend fun allExtraIncome(): List<ExtraIncomeEntity>
     @Query("SELECT * FROM salary_rule ORDER BY effectiveFrom, id")
@@ -80,6 +82,10 @@ interface PeriodDao {
     fun observeLatestPeriod(): Flow<BudgetPeriodEntity?>
     @Query("SELECT * FROM budget_period ORDER BY startDate DESC")
     fun observePeriods(): Flow<List<BudgetPeriodEntity>>
+    @Query("DELETE FROM budget_period WHERE startDate < :before")
+    suspend fun deletePeriodsBefore(before: LocalDate): Int
+    @Query("DELETE FROM category_transfer WHERE periodStart < :before")
+    suspend fun deleteTransfersBefore(before: LocalDate): Int
     @Query("SELECT * FROM budget_period ORDER BY startDate")
     suspend fun allPeriods(): List<BudgetPeriodEntity>
     @Query("SELECT MIN(startDate) FROM budget_period")
@@ -152,6 +158,13 @@ interface ExpenseDao {
     )
     fun observeSpendingDays(from: LocalDate, to: LocalDate): Flow<List<Long>>
 
+    @Query("DELETE FROM expense WHERE date < :before")
+    suspend fun deleteBefore(before: LocalDate): Int
+    @Query("SELECT COUNT(*) FROM expense")
+    suspend fun count(): Int
+    @Query("SELECT MIN(date) FROM expense")
+    suspend fun oldestEpochDay(): Long?
+
     @Query("SELECT * FROM expense ORDER BY createdAt DESC LIMIT 1")
     suspend fun lastCreated(): ExpenseEntity?
 
@@ -218,6 +231,10 @@ interface PlanningDao {
     fun observePotTotal(): Flow<Long>
     @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM savings_pot_entry")
     suspend fun potTotal(): Long
+    @Query("SELECT COALESCE(SUM(amountPaise), 0) FROM savings_pot_entry WHERE date < :before")
+    suspend fun potSumBefore(before: LocalDate): Long
+    @Query("DELETE FROM savings_pot_entry WHERE date < :before")
+    suspend fun deletePotBefore(before: LocalDate): Int
     @Query("SELECT * FROM savings_pot_entry ORDER BY date, id")
     suspend fun allPotEntries(): List<SavingsPotEntryEntity>
     @Query("SELECT * FROM savings_pot_entry ORDER BY date DESC, id DESC")

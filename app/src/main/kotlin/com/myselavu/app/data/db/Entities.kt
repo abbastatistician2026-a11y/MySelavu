@@ -248,7 +248,7 @@ data class RecurringPaymentEntity(
 
 // ---------- Savings pot & goals ----------
 
-enum class PotEntryKind { MONTH_END, MANUAL_ADD, WITHDRAW, TO_GOAL }
+enum class PotEntryKind { MONTH_END, MANUAL_ADD, WITHDRAW, TO_GOAL, CARRIED_BALANCE }
 
 @Entity(tableName = "savings_pot_entry", indices = [Index("date")])
 data class SavingsPotEntryEntity(

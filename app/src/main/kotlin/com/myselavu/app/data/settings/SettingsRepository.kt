@@ -33,6 +33,12 @@ data class AppSettings(
     val appLockEnabled: Boolean = false,
     val lockAfterSeconds: Int = 60,
     val hideAmounts: Boolean = false,
+    /** Last time a backup file was saved (epoch millis), 0 = never. */
+    val lastBackupAt: Long = 0,
+    /** Don't show the backup reminder before this time (epoch millis). */
+    val backupReminderSnoozedUntil: Long = 0,
+    /** Automatically clear history older than this many years. 0 = keep forever (default). */
+    val keepHistoryYears: Int = 0,
     /** Debug builds only: days added to the real date. */
     val timeTravelDays: Long = 0,
 )
@@ -56,6 +62,9 @@ class SettingsRepository(private val context: Context) {
         val lockAfter = intPreferencesKey("lock_after_seconds")
         val hideAmounts = booleanPreferencesKey("hide_amounts")
         val timeTravel = longPreferencesKey("time_travel_days")
+        val lastBackup = longPreferencesKey("last_backup_at")
+        val backupSnooze = longPreferencesKey("backup_snoozed_until")
+        val keepYears = intPreferencesKey("keep_history_years")
     }
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { p ->
@@ -75,6 +84,9 @@ class SettingsRepository(private val context: Context) {
             lockAfterSeconds = p[Keys.lockAfter] ?: d.lockAfterSeconds,
             hideAmounts = p[Keys.hideAmounts] ?: d.hideAmounts,
             timeTravelDays = p[Keys.timeTravel] ?: d.timeTravelDays,
+            lastBackupAt = p[Keys.lastBackup] ?: d.lastBackupAt,
+            backupReminderSnoozedUntil = p[Keys.backupSnooze] ?: d.backupReminderSnoozedUntil,
+            keepHistoryYears = p[Keys.keepYears] ?: d.keepHistoryYears,
         )
     }
 
@@ -97,5 +109,30 @@ class SettingsRepository(private val context: Context) {
         it[Keys.lockAfter] = lockAfterSeconds
     }
     suspend fun setHideAmounts(hide: Boolean) = context.dataStore.edit { it[Keys.hideAmounts] = hide }
+    suspend fun setLastBackupAt(millis: Long) = context.dataStore.edit { it[Keys.lastBackup] = millis }
+    suspend fun snoozeBackupReminder(until: Long) = context.dataStore.edit { it[Keys.backupSnooze] = until }
+    suspend fun setKeepHistoryYears(years: Int) = context.dataStore.edit { it[Keys.keepYears] = years }
+
+    /** The settings worth keeping in a backup file (everything except device-only items). */
+    suspend fun exportForBackup(): Map<String, Any> {
+        val s = current()
+        return mapOf(
+            "profileName" to s.profileName, "theme" to s.theme.name, "budgetStartDay" to s.budgetStartDay,
+            "unspentMode" to s.unspentMode.name, "lastPaymentMethod" to s.lastPaymentMethod.name,
+            "hideAmounts" to s.hideAmounts, "keepHistoryYears" to s.keepHistoryYears,
+        )
+    }
+
+    suspend fun importFromBackup(values: Map<String, Any?>) = context.dataStore.edit { p ->
+        (values["profileName"] as? String)?.let { p[Keys.profileName] = it }
+        (values["theme"] as? String)?.let { v -> runCatching { ThemeMode.valueOf(v) }.getOrNull()?.let { p[Keys.theme] = it.name } }
+        (values["budgetStartDay"] as? Number)?.let { p[Keys.startDay] = it.toInt().coerceIn(1, 28) }
+        (values["unspentMode"] as? String)?.let { v -> runCatching { UnspentMode.valueOf(v) }.getOrNull()?.let { p[Keys.unspentMode] = it.name } }
+        (values["lastPaymentMethod"] as? String)?.let { v -> runCatching { PaymentMethod.valueOf(v) }.getOrNull()?.let { p[Keys.lastMethod] = it.name } }
+        (values["hideAmounts"] as? Boolean)?.let { p[Keys.hideAmounts] = it }
+        (values["keepHistoryYears"] as? Number)?.let { p[Keys.keepYears] = it.toInt() }
+        p[Keys.setupDone] = true
+    }
+
     suspend fun setTimeTravelDays(days: Long) = context.dataStore.edit { it[Keys.timeTravel] = days }
 }

@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0: First full release
+
+- **Backup & storage** (menu): see how much space your data uses; save ONE backup file, optionally locked
+  with a password (AES-256), to Google Drive or anywhere via Android's Save screen; restore it on any phone
+  (also offered on the very first setup screen). A monthly reminder on the home screen asks you to back up.
+- **Clear history** when you want: older than 1, 2 or 5 years, or all past months (the current month,
+  your settings and your Savings pot total are always kept). Optional automatic clean-up: keep history for
+  3, 5 or 10 years (default: forever). The database is compacted after clearing.
+- Data is tiny: about 160 bytes per expense, so 10 years of daily use is around 6 MB.
+- Permanent release signing, version 1.0.0, Play Store app bundle (.aab), privacy policy.
+
 ## Phase 2: A usable app
 
 - **First-time setup**: language, name, salary, month start day, fixed expenses (with suggestions),

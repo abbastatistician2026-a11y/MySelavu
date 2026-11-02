@@ -11,6 +11,11 @@ on:
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
+    inputs:
+      release_version:
+        description: "To publish the REAL signed app, type a version like 1.0.0 (leave empty for a normal test build)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -25,7 +30,7 @@ env:
 jobs:
   test-build:
     name: Tests, screenshots and test APK
-    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+    if: ${{ !startsWith(github.ref, 'refs/tags/') && (github.event_name != 'workflow_dispatch' || inputs.release_version == '') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -181,7 +186,7 @@ jobs:
 
   release:
     name: Signed release APK
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.release_version != '') }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -229,8 +234,12 @@ jobs:
           set -e
           echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.keystore"
           export RELEASE_KEYSTORE_PATH="$RUNNER_TEMP/release.keystore"
-          VERSION="${GITHUB_REF_NAME#v}"
-          ./gradlew --stacktrace :app:assembleRelease -PappVersionName="$VERSION"
+          if [ -n "${{ inputs.release_version }}" ]; then VERSION="${{ inputs.release_version }}"; else VERSION="${GITHUB_REF_NAME#v}"; fi
+          VERSION="${VERSION#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "TAG=v$VERSION" >> "$GITHUB_ENV"
+          # APK to install directly, and AAB (app bundle) for the Google Play Store
+          ./gradlew --stacktrace :app:assembleRelease :app:bundleRelease -PappVersionName="$VERSION"
           rm -f "$RUNNER_TEMP/release.keystore"
 
       - name: Verify signature and permissions
@@ -243,7 +252,8 @@ jobs:
             echo "::error::INTERNET permission found"; exit 1
           fi
           mkdir -p out
-          cp "$APK" "out/MySelavu-${GITHUB_REF_NAME}.apk"
+          cp "$APK" "out/MySelavu-${TAG}.apk"
+          cp app/build/outputs/bundle/release/*.aab "out/MySelavu-${TAG}-play-store.aab"
           SIZE=$(awk "BEGIN {printf \"%.2f\", $(stat -c %s "$APK")/1048576}")
           echo "APK size: ${SIZE} MB" >> "$GITHUB_STEP_SUMMARY"
 
@@ -251,7 +261,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$GITHUB_REF_NAME" out/*.apk \
-            --title "MySelavu ${GITHUB_REF_NAME}" \
-            --notes "The real MySelavu app, version ${GITHUB_REF_NAME}. Install MySelavu-${GITHUB_REF_NAME}.apk on your phone. See CHANGELOG.md for what's new." \
-            --verify-tag
+          cat > notes.md <<EOF
+          **MySelavu ${TAG}**: the real app (signed with your permanent key).
+
+          - **On your phone:** tap \`MySelavu-${TAG}.apk\` below to download and install it.
+            It installs next to the TEST app. Future versions install over this one and keep your data.
+          - **For the Google Play Store (optional):** upload \`MySelavu-${TAG}-play-store.aab\` in Play Console.
+
+          See CHANGELOG.md for what's new.
+          EOF
+          gh release create "$TAG" out/* \
+            --title "MySelavu ${TAG}" \
+            --notes-file notes.md \
+            --target "$GITHUB_SHA"
